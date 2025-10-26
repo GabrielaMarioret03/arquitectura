@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro & Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1c2b38;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #2e3d4c;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.3);
+      width: 350px;
+      color: #fff;
+    }
+    .tabs {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 10px 10px 0 0;
+    }
+    .tab.active {
+      background: #00c896;
+      color: #fff;
+    }
+    .form {
+      display: none;
+    }
+    .form.active {
+      display: block;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #00c896;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #009f75;
+    }
+    .error {
+      color: #ff8080;
+      margin-top: 10px;
+      text-align: center;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="tabs">
+      <div class="tab active" id="signup-tab">Registrarse</div>
+      <div class="tab" id="login-tab">Iniciar Sesión</div>
+    </div>
+
+    <!-- Registro -->
+    <div class="form active" id="signup-form">
+      <h2>Crear Cuenta</h2>
+      <input type="text" id="firstName" placeholder="Nombres *">
+      <input type="text" id="lastName" placeholder="Apellidos *">
+      <input type="email" id="email-signup" placeholder="Correo electrónico *">
+      <input type="password" id="password-signup" placeholder="Contraseña *">
+      <button id="signup-btn">Registrar</button>
+      <p class="error" id="signup-error"></p>
+    </div>
+
+    <!-- Iniciar Sesión -->
+    <div class="form" id="login-form">
+      <h2>Bienvenido de nuevo</h2>
+      <input type="email" id="email-login" placeholder="Correo electrónico">
+      <input type="password" id="password-login" placeholder="Contraseña">
+      <button id="login-btn">Ingresar</button>
+      <p class="error" id="login-error"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+    // 🔑 Coloca tus credenciales (desde tu proyecto Supabase → Project Settings → API)
+    const SUPABASE_URL = 'https://brlrrwkxumslnipscgzz.supabase.co'
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJybHJyd2t4dW1zbG5pcHNjZ3p6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3MTY1NTUsImV4cCI6MjA3NjI5MjU1NX0.0JtpXr4F_0xp6d3RwLyrOe913BOyxEBgRh5c2tmMRtk'
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+
+    // Tabs
+    const signupTab = document.getElementById("signup-tab")
+    const loginTab = document.getElementById("login-tab")
+    const signupForm = document.getElementById("signup-form")
+    const loginForm = document.getElementById("login-form")
+
+    signupTab.onclick = () => {
+      signupForm.classList.add("active")
+      loginForm.classList.remove("active")
+      signupTab.classList.add("active")
+      loginTab.classList.remove("active")
+    }
+
+    loginTab.onclick = () => {
+      loginForm.classList.add("active")
+      signupForm.classList.remove("active")
+      loginTab.classList.add("active")
+      signupTab.classList.remove("active")
+    }
+
+    // 🔸 Registro Supabase
+    document.getElementById('signup-btn').addEventListener('click', async () => {
+      const firstName = document.getElementById("firstName").value.trim()
+      const lastName = document.getElementById("lastName").value.trim()
+      const email = document.getElementById("email-signup").value.trim()
+      const password = document.getElementById("password-signup").value.trim()
+      const errorMsg = document.getElementById("signup-error")
+
+      if (!firstName || !lastName || !email || !password) {
+        errorMsg.textContent = "⚠️ Por favor complete todos los campos."
+        return
+      }
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { firstName, lastName } // se guarda en el perfil del usuario
+        }
+      })
+
+      if (error) {
+        errorMsg.textContent = "❌ " + error.message
+      } else {
+        errorMsg.style.color = "#00c896"
+        errorMsg.textContent = "✅ Cuenta creada, revisa tu correo para confirmar."
+        setTimeout(() => loginTab.click(), 2000)
+      }
+    })
+
+    // 🔸 Login Supabase
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email = document.getElementById("email-login").value.trim()
+      const password = document.getElementById("password-login").value.trim()
+      const errorMsg = document.getElementById("login-error")
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+
+      if (error) {
+        errorMsg.textContent = "❌ " + error.message
+      } else {
+        errorMsg.style.color = "#00c896"
+        errorMsg.textContent = "✅ Bienvenido de nuevo"
+        setTimeout(() => window.location.href = "proyectos.html", 1500)
+      }
+    })
+  </script>
+</body>
+</html>

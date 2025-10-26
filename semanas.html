@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRABAJOS | Gabriela Aguilar Quispe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: radial-gradient(circle at top, #0a0a0a, #000);
+      color: #f1f1f1;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    header.navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(15, 15, 15, 0.95);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 15px rgba(255, 59, 59, 0.3);
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+
+    .logo-img {
+      width: 45px;
+      height: auto;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: #ff3b3b;
+      letter-spacing: 2px;
+    }
+
+    nav a {
+      color: #f1f1f1;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    nav a:hover, nav a.activo {
+      color: #ff3b3b;
+      border-bottom: 2px solid #ff3b3b;
+    }
+
+    .proyectos-container {
+      padding: 120px 40px 60px;
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .proyectos-container h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #ff3b3b;
+      font-size: 2.5rem;
+      text-shadow: 0 0 20px rgba(255, 59, 59, 0.5);
+    }
+
+    .proyectos-container p {
+      color: #bbb;
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 10px auto 40px;
+      line-height: 1.6;
+    }
+
+    .grid-semanas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      column-gap: 50px;
+      row-gap: 70px;
+      justify-items: center;
+      margin-top: 50px;
+    }
+
+    .card-semana {
+      background: linear-gradient(145deg, #111, #1a1a1a);
+      border: 1px solid #2a2a2a;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(255, 59, 59, 0.1);
+      transition: all 0.4s ease;
+      width: 100%;
+      max-width: 330px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-semana:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px rgba(255, 59, 59, 0.4);
+      border-color: #ff3b3b;
+    }
+
+    .vista-previa {
+      width: 100%;
+      height: 200px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      background: #000;
+      border: none;
+      object-fit: cover;
+    }
+
+    iframe.vista-previa {
+      height: 250px;
+    }
+
+    .card-semana h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #ff3b3b;
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .card-semana p {
+      color: #aaa;
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, #ff3b3b, #a80000);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Orbitron', sans-serif;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 59, 59, 0.7);
+    }
+
+    .btn-descargar {
+      background: linear-gradient(90deg, #0099ff, #005eff);
+    }
+
+    .btn-descargar:hover {
+      box-shadow: 0 0 15px rgba(0, 153, 255, 0.7);
+    }
+
+    /* === MODAL === */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+      background: #111;
+      padding: 10px;
+      border-radius: 12px;
+      max-width: 80%;
+      width: 900px;
+      position: relative;
+      box-shadow: 0 0 25px rgba(255, 59, 59, 0.4);
+    }
+
+    .cerrar {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      color: #ff3b3b;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .cerrar:hover {
+      color: #fff;
+    }
+
+    iframe#visor, video#visorVideo {
+      width: 100%;
+      height: 550px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #0a0a0a;
+      color: #777;
+      border-top: 2px solid #ff3b3b;
+      margin-top: 50px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <img src="imagenes/uplaLogo.png" alt="Logo Universidad" class="logo-img">
+    <div class="logo">Gabriela Marioret Aguilar Quispe</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="login.html">Acceder como administrador</a>
+    </nav>
+  </header>
+
+  <main class="proyectos-container">
+    <h1>📘 SEMANAS ACADÉMICAS DEL CURSO</h1>
+    <p>
+      Aquí encontrarás el registro completo de mis semanas de trabajo, desarrollo técnico y documentación.
+      Cada semana incluye informes, presentaciones y archivos del curso.
+    </p>
+
+    <div class="grid-semanas" id="gridSemanas"></div>
+
+    <!-- Modal de vista previa -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="cerrar" onclick="cerrarModal()">&times;</span>
+        <iframe id="visor"></iframe>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 Gabriela Marioret Aguilar Quispe | Trabajos de Arquitectura de Software
+  </footer>
+
+  <script>
+    const grid = document.getElementById("gridSemanas");
+    const modal = document.getElementById("modal");
+    const visor = document.getElementById("visor");
+
+    // 📁 Lista de semanas con múltiples archivos
+    const semanas = [
+      { num: 1, archivos: ["PDFs/SEMANA1/2025-10-03_VIII_ArquitecturaDeSoftware.pdf", "PDFs/SEMANA1/MAPAS CONCEPTUALES.pdf"] },
+      { num: 2, archivos: ["PDFs/SEMANA2/Trabajo_LlamaFood.pdf", "PDFs/SEMANA2/BIBLIOTECA DIGITAL.pdf"] },
+      { num: 3, archivos: ["PDFs/SEMANA3/PRINCIPIOS DE DISEÑO ARQUITECTONICO DE INKAFARMA.pdf"] },
+      { num: 4, archivos: ["PDFs/SEMANA4/2025-10-17_SEMANA 04.pdf"] },
+      { num: 5, archivos: ["PDFs/SEMANA5/Semana 5.pdf",] },
+      { num: 6, archivos: ["PDFs/SEMANA6/SEMANA6.pdf",] },
+      { num: 7, archivos: ["PDFs/SEMANA7/Informe_Tecnico_Capturas_UPLA.pdf",] },
+      { num: 8, archivos: ["PDFs/proximamente.gif",] },
+      { num: 9, archivos: ["PDFs/proximamente.gif",] },
+      { num: 10, archivos: ["PDFs/proximamente.gif",] },
+      { num: 11, archivos: ["PDFs/proximamente.gif",] },
+      { num: 12, archivos: ["PDFs/proximamente.gif",] },
+      { num: 13, archivos: ["PDFs/proximamente.gif",] },
+      { num: 14, archivos: ["PDFs/proximamente.gif",] },
+      { num: 15, archivos: ["PDFs/proximamente.gif",] },
+      { num: 16, archivos: ["PDFs/proximamente.gif",] },
+    ];
+
+    // 🧱 Generar tarjetas dinámicamente
+    for (let i = 1; i <= 16; i++) {
+      const semana = semanas.find(s => s.num === i);
+      const card = document.createElement("div");
+      card.className = "card-semana";
+
+      let vistaPrev = "";
+      if (semana && semana.archivos.length > 0) {
+        const primerArchivo = semana.archivos[0];
+        const ext = primerArchivo.split('.').pop().toLowerCase();
+
+        if (["jpg", "jpeg", "png", "gif", "webp"].includes(ext)) {
+          vistaPrev = `<img src="${primerArchivo}" class="vista-previa" alt="Semana ${i}">`;
+        } else if (["mp4", "webm"].includes(ext)) {
+          vistaPrev = `<video class="vista-previa" controls><source src="${primerArchivo}" type="video/${ext}"></video>`;
+        } else if (ext === "pdf") {
+          vistaPrev = `<iframe class="vista-previa" src="${primerArchivo}"></iframe>`;
+        } else {
+          vistaPrev = `<div class="vista-previa" style="display:flex;align-items:center;justify-content:center;color:#888;">Formato no compatible</div>`;
+        }
+      } else {
+        vistaPrev = `<img src="https://via.placeholder.com/300x180/ff3b3b/000000?text=Semana+${i}" class="vista-previa" alt="Sin archivo">`;
+      }
+
+      // 🧩 Botones por cada archivo
+      let botones = "";
+      if (semana && semana.archivos.length > 0) {
+        botones = semana.archivos.map((archivo, index) => `
+          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px;">
+            <button class="btn" onclick="verContenido('${archivo}')">Ver archivo ${index + 1}</button>
+            <a href="${archivo}" download class="btn btn-descargar">Descargar ${index + 1}</a>
+          </div>
+        `).join("");
+      } else {
+        botones = `<button class="btn" disabled>Sin contenido</button>`;
+      }
+
+      card.innerHTML = `
+        ${vistaPrev}
+        <h3>Semana ${i.toString().padStart(2, '0')}</h3>
+        <p>Resumen del trabajo y resultados alcanzados durante la semana ${i}.</p>
+        ${botones}
+      `;
+
+      grid.appendChild(card);
+    }
+
+    // 🪟 Modal de visualización
+    function verContenido(archivo) {
+      const ext = archivo.split('.').pop().toLowerCase();
+      if (["mp4", "webm"].includes(ext)) {
+        visor.outerHTML = `<video id="visorVideo" controls autoplay style="width:100%;height:550px;border-radius:8px;border:none;">
+          <source src="${archivo}" type="video/${ext}">
+        </video>`;
+      } else {
+        visor.outerHTML = `<iframe id="visor" src="${archivo}" style="width:100%;height:550px;border-radius:8px;border:none;"></iframe>`;
+      }
+      modal.style.display = "flex";
+    }
+
+    function cerrarModal() {
+      modal.style.display = "none";
+      const iframe = document.getElementById("visor");
+      const video = document.getElementById("visorVideo");
+      if (iframe) iframe.src = "";
+      if (video) video.pause();
+    }
+
+    window.onclick = (e) => {
+      if (e.target === modal) cerrarModal();
+    };
+  </script>
+
+</body>
+</html>

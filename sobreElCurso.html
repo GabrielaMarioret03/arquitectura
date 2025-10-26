@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página web</title>
+    <link rel="stylesheet" href="estilos2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    
+    <header class="header" id="inicio">
+        <img class="hamburguer" src="img/hamburguesa.svg" alt="">
+        <nav class="menu-navegacion">
+                
+                <a href="index.html">Portada</a>
+                <a href="#servicio">Definición y Contexto</a>
+                <a href="#galeria">Elementos Clave</a>
+                <a href="#expertos">Especializados</a>
+        </nav>
+        <div class="contenedor head">
+            <h1 class="titulo">Arquitectura de Software</h1>
+            <p class="copy">El plano que guía la construcción de sistemas eficientes y de calidad.</p>
+        </div>
+        
+    </header>
+    <main>
+        <section class="services" id="servicio">
+            <h2 class="subtitulo">Arquitectura de Software</h2>
+            <div class="contenedor-servicio">
+                <img src="img/checklist.svg" alt="">
+                <div class="checklist-servicio">
+                    <div class="service">
+                        <h3 class="n-service"><span class="number">1</span>Definición</h3>
+                        <p> La arquitectura de software es la estructura fundamental de un sistema, que organiza sus componentes y define cómo interactúan entre sí.</p>
+                    </div>
+                    <div class="service">
+                        <h3 class="n-service"><span class="number">2</span>Contexto en el desarrollo</h3>
+                        <p>Actúa como un plano o modelo que guía a los desarrolladores y al equipo de trabajo, asegurando que el sistema cumpla con requisitos técnicos, de negocio y de calidad.</p>
+                    </div>
+                    <div class="service">
+                        <h3 class="n-service"><span class="number">3</span>Importancia en proyectos</h3>
+                        <p> Permite tomar decisiones tempranas sobre tecnologías, estilos y patrones, facilitando la escalabilidad, mantenibilidad y seguridad del software a lo largo de su ciclo de vida.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="gallery" id="galeria">
+            <div class="contenedor">
+                <h2 class="subtitulo">Elementos Claves</h2>
+                <div class="contenedor-galeria">
+                    <img src="img/Img_6.png" class="img-galeria" alt="Hola">
+                    <img src="img/Img_2.png" class="img-galeria" alt="">
+                    <img src="img/Img_1.jpg" class="img-galeria" alt="">
+                    <img src="img/Img_3.webp" class="img-galeria" alt="">
+                    <img src="img/Img_5.webp" class="img-galeria" alt="">
+                    <img src="img/Img_4.png" class="img-galeria" alt="">
+                </div>
+            </div>
+        </section>
+        <div class="imagen-light">
+            <img src="img/close.svg" alt="" class="close">
+            <img src="" alt="" class="agregar-imagen">
+        </div>
+        <section class="contenedor" id="expertos">
+            <h2 class="subtitulo">Expertos en:</h2>
+            <section class="experts">
+                <div class="cont-expert">
+                    <img src="img/pie_chart.svg" alt="">
+                    <h3 class="n-expert">Analisis de datos</h3>
+                </div>
+                <div class="cont-expert">
+                    <img src="img/search_engine.svg" alt="">
+                    <h3 class="n-expert">Análisis sistémico</h3>
+                </div>
+                <div class="cont-expert">
+                    <img src="img/security.svg" alt="">
+                    <h3 class="n-expert">Protección de Datos y encriptaciones</h3>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="js/menu.js"></script>
+    <script src="js/lightbox.js"></script>
+</body>
+</html>
