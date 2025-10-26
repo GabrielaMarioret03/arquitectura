@@ -202,13 +202,6 @@
       color: #fff;
     }
 
-    iframe#visor, video#visorVideo {
-      width: 100%;
-      height: 550px;
-      border-radius: 8px;
-      border: none;
-    }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -249,7 +242,6 @@
     <div id="modal" class="modal">
       <div class="modal-content">
         <span class="cerrar" onclick="cerrarModal()">&times;</span>
-        <iframe id="visor"></iframe>
       </div>
     </div>
   </main>
@@ -261,7 +253,6 @@
   <script>
     const grid = document.getElementById("gridSemanas");
     const modal = document.getElementById("modal");
-    const visor = document.getElementById("visor");
 
     // 📁 Lista de semanas con múltiples archivos
     const semanas = [
@@ -269,18 +260,18 @@
       { num: 2, archivos: ["PDFs/SEMANA2/Trabajo_LlamaFood.pdf", "PDFs/SEMANA2/BIBLIOTECA DIGITAL.pdf"] },
       { num: 3, archivos: ["PDFs/SEMANA3/PRINCIPIOS DE DISEÑO ARQUITECTONICO DE INKAFARMA.pdf"] },
       { num: 4, archivos: ["PDFs/SEMANA4/2025-10-17_SEMANA 04.pdf"] },
-      { num: 5, archivos: ["PDFs/SEMANA5/Semana 5.pdf",] },
-      { num: 6, archivos: ["PDFs/SEMANA6/SEMANA6.pdf",] },
-      { num: 7, archivos: ["PDFs/SEMANA7/Informe_Tecnico_Capturas_UPLA.pdf",] },
-      { num: 8, archivos: ["PDFs/proximamente.gif",] },
-      { num: 9, archivos: ["PDFs/proximamente.gif",] },
-      { num: 10, archivos: ["PDFs/proximamente.gif",] },
-      { num: 11, archivos: ["PDFs/proximamente.gif",] },
-      { num: 12, archivos: ["PDFs/proximamente.gif",] },
-      { num: 13, archivos: ["PDFs/proximamente.gif",] },
-      { num: 14, archivos: ["PDFs/proximamente.gif",] },
-      { num: 15, archivos: ["PDFs/proximamente.gif",] },
-      { num: 16, archivos: ["PDFs/proximamente.gif",] },
+      { num: 5, archivos: ["PDFs/SEMANA5/Semana 5.pdf"] },
+      { num: 6, archivos: ["PDFs/SEMANA6/SEMANA6.pdf"] },
+      { num: 7, archivos: ["PDFs/SEMANA7/Informe_Tecnico_Capturas_UPLA.pdf"] },
+      { num: 8, archivos: ["PDFs/proximamente.gif"] },
+      { num: 9, archivos: ["PDFs/proximamente.gif"] },
+      { num: 10, archivos: ["PDFs/proximamente.gif"] },
+      { num: 11, archivos: ["PDFs/proximamente.gif"] },
+      { num: 12, archivos: ["PDFs/proximamente.gif"] },
+      { num: 13, archivos: ["PDFs/proximamente.gif"] },
+      { num: 14, archivos: ["PDFs/proximamente.gif"] },
+      { num: 15, archivos: ["PDFs/proximamente.gif"] },
+      { num: 16, archivos: ["PDFs/proximamente.gif"] },
     ];
 
     // 🧱 Generar tarjetas dinámicamente
@@ -330,16 +321,37 @@
       grid.appendChild(card);
     }
 
-    // 🪟 Modal de visualización
+    // 🪟 Modal de visualización (FUNCIONAL)
     function verContenido(archivo) {
       const ext = archivo.split('.').pop().toLowerCase();
+      const contenedor = modal.querySelector(".modal-content");
+
+      // Elimina visor previo si existe
+      const viejoVideo = document.getElementById("visorVideo");
+      const viejoIframe = document.getElementById("visor");
+      if (viejoVideo) viejoVideo.remove();
+      if (viejoIframe) viejoIframe.remove();
+
+      // Crea nuevo visor según el tipo
+      let nuevoElemento;
       if (["mp4", "webm"].includes(ext)) {
-        visor.outerHTML = `<video id="visorVideo" controls autoplay style="width:100%;height:550px;border-radius:8px;border:none;">
-          <source src="${archivo}" type="video/${ext}">
-        </video>`;
+        nuevoElemento = document.createElement("video");
+        nuevoElemento.id = "visorVideo";
+        nuevoElemento.controls = true;
+        nuevoElemento.autoplay = true;
+        nuevoElemento.style = "width:100%;height:550px;border-radius:8px;border:none;";
+        const fuente = document.createElement("source");
+        fuente.src = archivo;
+        fuente.type = `video/${ext}`;
+        nuevoElemento.appendChild(fuente);
       } else {
-        visor.outerHTML = `<iframe id="visor" src="${archivo}" style="width:100%;height:550px;border-radius:8px;border:none;"></iframe>`;
+        nuevoElemento = document.createElement("iframe");
+        nuevoElemento.id = "visor";
+        nuevoElemento.src = archivo;
+        nuevoElemento.style = "width:100%;height:550px;border-radius:8px;border:none;";
       }
+
+      contenedor.appendChild(nuevoElemento);
       modal.style.display = "flex";
     }
 
@@ -347,8 +359,11 @@
       modal.style.display = "none";
       const iframe = document.getElementById("visor");
       const video = document.getElementById("visorVideo");
-      if (iframe) iframe.src = "";
-      if (video) video.pause();
+      if (iframe) iframe.remove();
+      if (video) {
+        video.pause();
+        video.remove();
+      }
     }
 
     window.onclick = (e) => {
@@ -358,3 +373,4 @@
 
 </body>
 </html>
+
